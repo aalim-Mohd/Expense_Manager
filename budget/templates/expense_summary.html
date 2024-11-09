@@ -1,0 +1,122 @@
+{%extends 'base.html'%}
+{%block main_block%}
+
+<div class="container ">
+
+  {%if messages%}
+    {%for m in messages%}
+       <div class="alert alert-warning alert-dismissible fade show" role="alert">
+          <strong>{{m}}</strong> You should check in on some of those fields below.
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    {%endfor%}
+  {%endif%}
+
+    <div class="row my-4">
+        <div class="col-4"></div>
+        <div class="col-4 border border-2 rounded p-3 shadow">
+            <h1 class="">Total Expense : {{total_expense}} </h1>
+        </div>
+        <div class="col-4"></div>
+    </div>
+    <div class="row mt-5 border border-dark">
+       <div class="col-3 p-3 text-center">
+            Category Summary
+            {%for c in category_summary%}
+            <div class="w-100 border p-3">
+                <div class="row p-2">
+                    <div class="col-1 bg-success rounded-circle"></div>
+                    <div class="col-10">
+                        <span class="fw-bold">{{c.category_obj__name}} :</span> {{c.total}} 
+                    </div>
+                   
+                </div>
+            </div>
+            
+            {%endfor%}
+       </div>
+       <div class="col-3 p-3 text-center">
+           Category Chart
+           <canvas id="categoryChart"></canvas>
+       </div>
+       <div class="col-3 p-3 text-center">
+            Payment Summary
+            {%for p in payment_summary%} 
+                <div class="w-100 border p-3">
+                    <div class="row p-2">
+                        <div class="col-1 bg-success rounded-circle"></div>
+                        <div class="col-10">
+                            <span class="fw-bold">{{p.payment_method}} :</span> {{p.total}} 
+                        </div>
+                       
+                    </div>
+                </div>
+            {%endfor%}
+       </div>
+       <div class="col-3 p-3 text-center">
+           Payment Chart
+           <canvas id="paymentChart"></canvas>
+       </div>
+    </div>
+</div>
+
+{%endblock%}
+
+{%block script_block%}
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+//plotting categoryChart
+
+const ctx = document.getElementById('categoryChart');
+  
+    new Chart(ctx, {
+      type: 'doughnut',
+      data: {
+        labels: [{%for c in category_summary%} '{{c.category_obj__name}}' ,{%endfor%}],
+        datasets: [{
+          label: '# of Votes',
+          data: [{%for c in category_summary%} '{{c.total}}' ,{%endfor%}],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    });
+
+//paymetnChart
+
+const ctx1 = document.getElementById('paymentChart');
+  
+  new Chart(ctx1, {
+    type: 'doughnut',
+    data: {
+      labels: [{%for p in payment_summary%} '{{p.payment_method}}' ,{%endfor%}],
+      datasets: [{
+        label: '# of Votes',
+        data: [{%for p in payment_summary%} '{{p.total}}' ,{%endfor%}],
+        borderWidth: 1
+      }]
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  });
+
+  
+
+
+
+</script>
+
+{%endblock%}

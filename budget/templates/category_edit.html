@@ -1,0 +1,20 @@
+{%extends 'base.html'%}
+
+{%block main_block%}
+<div class="container">
+        
+    <div class="row mt-5">
+        
+        <div class="col-3"></div>
+        <div class="col-6">
+        <form action=""method="post" class="border border-dark border-2 p-4 rounded rounded-4 shadow">
+            <h1 align="center" class=""><b>Edit Category</b></h1>
+            {%csrf_token%}
+            {{form}}
+            <button type="submit" class="">Edit</button>
+        </form>
+        </div>
+        <div class="col-3"></div>
+    </div>
+</div>
+{%endblock%}

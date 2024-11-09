@@ -1,0 +1,54 @@
+{%extends 'base.html'%}
+
+{%block main_block%}
+<div class="container"> 
+    <div class="row">
+        <div class="col-2"></div>
+        <div class="col-8">
+            <form action="">
+                <div class="row">
+                    <div class="col-5">
+                        <label for="">Start Date</label>
+                        {{form.start_date}}
+                    </div>
+                    <div class="col-5">
+                        <label for="">End Date</label>
+                        {{form.end_date}}
+                    </div>
+                    <div class="col-2"> <button type="submit" class="btn btn-outline-success mt-4">Fetch</button> </div>
+                </div>
+                
+
+            </form>
+        </div>
+        <div class="col-2"></div>
+    </div>
+    <div class="row mt-5">
+        <div class="col-2"></div>
+        <div class="col-8">
+            <table class="table border shadow">
+                <tr>
+                    <th>Title</th>
+                    <th>Amount</th>
+                    <th>Payment Method</th>
+                    <th>Action</th>
+                </tr>
+                {%for t in transactions%}
+                <tr>
+                    <td>{{t.title}}</td>
+                    <td>{{t.amount}}</td>
+                    <td>{{t.payment_method}}</td>
+                    <td class="d-flex gap-3">
+                        <a href="{%url 'transaction-edit' t.id%}" class="btn btn-warning"><i class="fa-regular fa-pen-to-square"></i></a>
+                        <a href="{%url 'transaction-delete' t.id%}" class="btn btn-danger"> <i class="fa-solid fa-trash"></i></a>
+                    </td>
+                </tr>
+                {%endfor%}
+            </table>
+        </div> 
+        <divclass="col-2"></div>
+    </div>                
+</div>                
+
+
+{%endblock%}
